@@ -3,7 +3,7 @@ requires = ['hatchling']
 build-backend = 'hatchling.build'
 
 [project]
-dependencies =["Pillow >= 8.4.0", "opencv-python==4.6.0.66]
+dependencies =["Pillow >= 8.4.0", "opencv-python==4.6.0.66", "ffmpeg >= 1.4"]
 
 name = 'ormedian_utils'
 version = '0.0.0'

@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 import cv2
-import glob
 
 
 def frame_capture(file, image_format, new_folder, videos):
@@ -28,7 +27,7 @@ def frame_capture(file, image_format, new_folder, videos):
     cap.release()
 
 
-def video(cap_input, image_format, folder_name, image_name, folder=False):
+def video_folder(cap_input, image_format, folder_name, image_name, folder=False):
     """
 
     :param cap_input: path to feed cv2.VideoCapture
@@ -47,7 +46,6 @@ def video(cap_input, image_format, folder_name, image_name, folder=False):
         pass
     else:
         os.makedirs(new_folder)
-    # print(new_folder)
 
     if folder is False:
         assert os.path.exists(cap_input), print(f'\033[1;31;40m {cap_input}  PATH does not exists'
@@ -61,21 +59,23 @@ def video(cap_input, image_format, folder_name, image_name, folder=False):
             f'Please provide any of the following images {img_ext}'
         )
 
-        cam = cv2.VideoCapture(cap_input)
-        assert cam.isOpened() is True, print('Error reading/opening video file')
+        camera = cv2.VideoCapture(cap_input)
+        assert camera.isOpened() is True, print('Error reading/opening video file')
         i = 0
-        while (cam.isOpened()):
-            ret, frame = cam.read()
-            cv2.imshow('Video Output', frame)
-            cv2.imwrite(f'{folder_name}/{image_name}_{i}', frame)
-            i += 1
-            if cv2.waitKey(0) & 0XFF == ord('q'):
+        while camera.isOpened():
+            ret, frame = camera.read()
+            if ret:
+
+                cv2.imshow('Video Output', frame)
+                cv2.imwrite(f'{folder_name}/{image_name}_{i}', frame)
+                i += 1
+            else:
                 break
-        cam.release()
+            cv2.waitKey(25)
+        camera.release()
         cv2.destroyAllWindows()
 
     else:
-
         vids_path = os.listdir(cap_input)
         videos = []
         """

@@ -21,7 +21,6 @@ def filemover(folder_path:str, file_ext:str, new_folder:str):
     else:
         print(f'{n_folder} is an existing path choose a different folder name')
     files_to_move = glob(os.path.join(folder_path, f'*{file_ext}'))
-    # print(files_to_move)
     i = 0
     for f in files_to_move:
         shutil.move(f, n_folder)

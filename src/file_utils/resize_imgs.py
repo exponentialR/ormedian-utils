@@ -71,18 +71,12 @@ def resizer(new_size: tuple,
                     pass
 
                 # Visualize the image output
-
-                image = mpimg.imread(f'{n_folder}/{img}')
                 image = mpimg.imread(f'{n_folder}/{img}')
                 cv2.namedWindow(f'{img}')
                 cv2.imshow(f'{img}', cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
                 cv2.waitKey(200)
                 cv2.destroyAllWindows()
-                # plt.figure(1)
-                # plt.clf()
-                # plt.imshow(image)
-                # plt.title(f'Resized image {img} ')
-                # plt.pause(0.001);plt.close(1)
+
 
 
     print(f'\033[1;33;40m========================================================\n')
