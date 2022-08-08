@@ -1,0 +1,45 @@
+import os
+import time
+from glob import glob
+import shutil
+from pathlib import Path
+from tqdm import tqdm
+
+
+def filemover(folder_path: str, file_ext: str, new_folder: str):
+    """
+
+    :param new_folder: Name of new folder to move files to
+    :param file_ext: extension of file to move e.g csv, json
+    :param folder_path: Path to the parent folder containing files to move
+    :return:
+    """
+    assert os.path.exists(Path(folder_path)), f'\033[1;36;40m Please provide a valid \033[1;34;40m folder path'
+    parent_folder = os.path.dirname(Path(folder_path))  # parent directory of input folder
+    n_folder = os.path.join(parent_folder, new_folder)  # path for files to move
+    print(f'\033[1;36;40m Your files will be moved to \033[1;34;40m {n_folder}')
+    time.sleep(1.0)
+
+    if not os.path.exists(n_folder):
+        os.mkdir(n_folder)  # make directory for folder if not already existing
+    else:
+        print(f'\033[1;39;41m {n_folder} is an existing path choose a different folder name')
+        exit()
+    files_to_move = glob(os.path.join(folder_path, f'*{file_ext}'))
+    files_to_move = tqdm(files_to_move)
+
+    i = 0
+    for f in files_to_move:
+        i += 1
+        shutil.move(f, n_folder)
+        time.sleep(.01)
+        files_to_move.set_description(f'{i} {file_ext} have been moved')
+
+    print(f'\033[1;34;40m {i} JSON FILES WERE MOVED')
+
+
+# if __name__ == "__main__":
+#     folder_path = '/home/iamshri/PycharmProjects/ormedian-utils/tests/testImages'
+#     f_e = 'json'
+#     n_f = 'json_folder2'
+#     filemover(folder_path, f_e, n_f)

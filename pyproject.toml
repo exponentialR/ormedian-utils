@@ -3,10 +3,10 @@ requires = ['hatchling']
 build-backend = 'hatchling.build'
 
 [project]
-dependencies =["Pillow >= 8.4.0", "opencv-python==4.6.0.66", "ffmpeg >= 1.4"]
+dependencies =["Pillow >= 8.4.0", "opencv-contrib-python", "matplotlib", "tqdm >= 4.59.0"]
 
 name = 'ormedian_utils'
-version = '0.0.0'
+version = '0.0.8'
 authors = [{name ='Samuel Adebayo', email = 'samuel@ormedian.com'}]
 license = {file ='LICENSE'}
 requires-python = '>=3.6'

@@ -1,14 +1,14 @@
 from PIL import Image
 import os
 from pathlib import Path
-import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import cv2
 
-def resizer(new_size: tuple,
+
+def image_resizer(new_size: tuple,
             image_path: str, new_folder: str,
             quality: int, n_f=True,
-            view=True, out_format=''):
+            view=True, out_format='jpg'):
     """
 
     :param out_format: Specify the output image format
@@ -76,8 +76,6 @@ def resizer(new_size: tuple,
                 cv2.imshow(f'{img}', cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
                 cv2.waitKey(200)
                 cv2.destroyAllWindows()
-
-
 
     print(f'\033[1;33;40m========================================================\n')
     print(f'\033[1;36;40m Resizing Image done!')
