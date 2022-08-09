@@ -36,10 +36,3 @@ def filemover(folder_path: str, file_ext: str, new_folder: str):
         files_to_move.set_description(f'{i} {file_ext} have been moved')
 
     print(f'\033[1;34;40m {i} JSON FILES WERE MOVED')
-
-
-# if __name__ == "__main__":
-#     folder_path = '/home/iamshri/PycharmProjects/ormedian-utils/tests/testImages'
-#     f_e = 'json'
-#     n_f = 'json_folder2'
-#     filemover(folder_path, f_e, n_f)

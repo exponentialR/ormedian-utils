@@ -1,3 +1,5 @@
+import time
+
 from PIL import Image
 import os
 from pathlib import Path
@@ -6,8 +8,8 @@ import cv2
 
 
 def image_resizer(new_size: tuple,
-            image_path: str, new_folder: str,
-            quality: int, n_f=True,
+            image_path: str,
+            quality: int, n_f=True, new_folder = 'ResizedImages',
             view=True, out_format='jpg'):
     """
 
@@ -24,14 +26,16 @@ def image_resizer(new_size: tuple,
     img_ext = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.psd', '.pdf', '.eps', '.raw', '.svg', '.bmp', '.dib']
     i = 0
     img_dirs = os.listdir(image_path)
-
+    total_img_len = len([x for x in os.listdir(image_path) if Path(x).suffix in img_ext])
+    print(f' \033[3;31;40m {total_img_len} total Images found in \033[1;34;40m {image_path}\n')
+    time.sleep(0.5)
     for img in img_dirs:
         img_e = Path(img).suffix
         new_path = os.path.join(image_path, img)
 
         if img_e not in img_ext:
-            print(f'\033[1;31;40m {img} not a supported image file '
-                  f'Please provide any of the following images {img_ext}'
+            print(f'\033[1;31;40m {img} Skipped! not a supported image file '
+
                   )
             pass
         else:
@@ -75,7 +79,10 @@ def image_resizer(new_size: tuple,
                 cv2.namedWindow(f'{img}')
                 cv2.imshow(f'{img}', cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
                 cv2.waitKey(200)
-                cv2.destroyAllWindows()
+        if i == total_img_len:
+            break
+
+        cv2.destroyAllWindows()
 
     print(f'\033[1;33;40m========================================================\n')
     print(f'\033[1;36;40m Resizing Image done!')
@@ -84,3 +91,4 @@ def image_resizer(new_size: tuple,
     print(f'\033[1;36;40m RESIZED IMAGES can be found in \033[1;34;40m {n_folder}')
 
     print(f'\033[1;33;40m========================================================\n')
+image_resizer((50, 50), '/home/iamshri/Datasets/sub_resizedImages', 'Resizedsub', quality=100 )

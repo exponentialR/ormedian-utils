@@ -222,5 +222,5 @@ class collect_frames:
 
         for vid in videos:
             frame_capture(os.path.join(self.cap_input, vid), self.image_format, new_folder, vid)
-        print(f'\033[1;31;40mALL COLLECTED FRAMES HAVE BEEN SAVED INTO {new_folder}')
+        print(f'\033[1;31;40m ALL COLLECTED FRAMES HAVE BEEN SAVED INTO {new_folder}')
 
