@@ -81,6 +81,10 @@ frames.videofile()
 
 Resize images in a folder or in multiple folders 
 
+
+https://user-images.githubusercontent.com/73752977/187389467-3e4c8e8f-bab9-433f-9e0a-e80dca32037b.mp4
+
+
 ```
 image_resizer (new_size: tuple, image_path: str,
               quality: int, n_f=True, new_folder='ResizedImages',
