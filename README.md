@@ -1,7 +1,7 @@
 This package contains the following utilities
-- [x] Frame Saver - save frames from video, folders containing videos or camera feed/livefeed.
-- [x] Image Resizer - Resize image while retaining the quality
-- [x] File mover - move specific file types from thousands/myriads of files.
+- [x] **Frame Saver** - save frames from video, folders containing videos or camera feed/livefeed.
+- [x] **Image Resizer** - Resize image while retaining the quality
+- [x] **File mover** - move specific file types from thousands/myriads of files.
 
 More utility function to be added subsequently.
 I hope you find this package useful
