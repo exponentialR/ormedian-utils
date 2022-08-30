@@ -1,5 +1,21 @@
-<br> <span style="color:green;font-weight:700;font-size:20px">
-FRAME SAVER </span> 
+This package contains the following utilities
+- [x] Frame Saver - save frames from video, folders containing videos or camera feed/livefeed.
+- [x] Image Resizer - Resize image while retaining the quality
+- [x] File mover - move specific file types from thousands/myriads of files.
+
+More utility function to be added subsequently.
+I hope you find this package useful
+
+
+To install:
+
+``
+pip3 install ormedian-utils
+``
+
+<br>
+
+> ### FRAME SAVER 
 
 ```
 collect_frames(num, video_format='mp4', image_name='frame', image_format='jpg')
@@ -58,10 +74,10 @@ frames = collect_frames(video_path)
 frames.videofile()
 ````
 
+<br>
 
-<br><span style="color:green;font-weight:700;font-size:20px">
-IMAGE RESIZER 
-</span>
+> ### IMAGE RESIZER 
+
 
 Resize images in a folder or in multiple folders 
 
@@ -103,9 +119,9 @@ image_resizer(new_size,
 ```
 
 <br>
-<span style="color:green;font-weight:800;font-size:20px">
-FILE MOVER 
-</span>
+
+> ### FILE MOVER 
+
 
 Move files from one folder to another 
 
