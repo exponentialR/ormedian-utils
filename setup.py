@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='ormedian_utils',
     packages=find_packages(exclude=['examples']),
-    version='0.1.6',
+    version='0.0.0.0',
     license='MIT',
     description='Utilities for Computer Vision Tasks',
     author='Samuel Adebayo',

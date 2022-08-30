@@ -41,8 +41,7 @@ def video_folder(cap_input, Image_folder = 'Image Folder', image_format='jpg'):
                '.dib']
     img_ext_ = ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'psd', 'pdf', 'eps', 'raw', 'svg', 'bmp',
                 'dib']
-    # vid_ext_ = ['avi', 'flv', 'mpg', 'mpeg', 'mpe', 'mpv', 'mp2', 'mp4', '3gp', 'm4p', 'm4v', 'ogg',
-    #             'webm', 'mov', 'wmv']
+
     assert os.path.isdir(cap_input), (f'\033[1;31;40m {cap_input} not a directory '
                                                f'Please provide a directory with video files')
     assert f'.{image_format}' in img_ext, print(

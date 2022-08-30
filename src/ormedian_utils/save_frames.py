@@ -84,13 +84,13 @@ def save_frames_only(cap_input, folder, image_name, image_format):
 
 
 class collect_frames:
-    def __init__(self, num, video_format='mp4', image_name='frame', image_format='jpg', videos_path=False):
+    def __init__(self, num, video_format='mp4', image_name='frame', image_format='jpg'):
         super(collect_frames, self).__init__()
         self.img_ext = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.psd', '.pdf', '.eps', '.raw', '.svg', '.bmp',
                         '.dib']
         self.vid_ext = ['.avi', '.flv', '.mpg', '.mpeg', '.mpe', '.mpv', '.mp2', '.mp4', '.3gp', '.m4p', '.m4v', '.ogg',
                         '.webm', '.mov', '.wmv']
-        self.videos_path = videos_path
+        # self.videos_path = videos_path
         self.cap_input = num
         self.image_format = image_format
         self.image_name = image_name
@@ -183,8 +183,7 @@ class collect_frames:
                    '.dib']
         img_ext_ = ['jpg', 'jpeg', 'png', 'gif', 'tiff', 'psd', 'pdf', 'eps', 'raw', 'svg', 'bmp',
                     'dib']
-        # vid_ext_ = ['avi', 'flv', 'mpg', 'mpeg', 'mpe', 'mpv', 'mp2', 'mp4', '3gp', 'm4p', 'm4v', 'ogg',
-        #             'webm', 'mov', 'wmv']
+
         assert os.path.isdir(self.cap_input), (f'\033[1;31;40m {self.cap_input} not a directory '
                                                f'Please provide a directory with video files')
         assert f'.{self.image_format}' in img_ext, print(
