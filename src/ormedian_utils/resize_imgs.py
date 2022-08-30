@@ -157,6 +157,7 @@ def resizer(new_size,
                 cv2.waitKey(2)
             i += 1
         if i == total_img_len:
+            cv2.destroyAllWindows()
             return i
             break
 
@@ -164,7 +165,7 @@ def resizer(new_size,
 
 #
 # images_folder = '/Users/solua1/Documents/Datasets'
-# # images_folder = '/Users/solua1/Documents/Datasets/3'
-# image_resizer((100, 100),
-#               images_folder,
-#               100, multiple_folders=True, n_f=True, view=True, new_folder='New_Image')
+images_folder = '/Users/solua1/Documents/Datasets/3'
+image_resizer((100, 100),
+              images_folder,
+              100, multiple_folders=False, n_f=True, view=True, new_folder='New_Image')

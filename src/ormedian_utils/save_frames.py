@@ -26,9 +26,12 @@ def frame_capture(file, image_format, new_folder, videos):
 
 
         else:
+            cap.release()
+            cv2.destroyAllWindows()
             break
-        cv2.waitKey(25)
+        cv2.waitKey(1)
     cap.release()
+    cv2.destroyAllWindows()
 
 
 def save_video_frames(cap_input, folder, image_name, video_format):
@@ -57,6 +60,8 @@ def save_video_frames(cap_input, folder, image_name, video_format):
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         else:
+            camera.release()
+            cv2.destroyAllWindows()
             break
     camera.release()
     video_.release()
@@ -78,6 +83,8 @@ def save_frames_only(cap_input, folder, image_name, image_format):
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
         else:
+            camera.release()
+            cv2.destroyAllWindows()
             break
     camera.release()
     cv2.destroyAllWindows()
@@ -161,9 +168,11 @@ class collect_frames:
                 cv2.imshow(f'Output {video_input} Video', frame)
                 print(f'\033[1;33;40m frame {i} collected and saved into \033[1;32;40m {image_folder}')
                 i += 1
-                if cv2.waitKey(45) & 0xFF == ord('q'):
+                if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
             else:
+                camera.release()
+                cv2.destroyAllWindows()
                 break
         camera.release()
         cv2.destroyAllWindows()
@@ -223,3 +232,5 @@ class collect_frames:
             frame_capture(os.path.join(self.cap_input, vid), self.image_format, new_folder, vid)
         print(f'\033[1;31;40m ALL COLLECTED FRAMES HAVE BEEN SAVED INTO {new_folder}')
 
+video_path = '/Users/solua1/Documents/TestVideos/video.mp4'
+collect_frames(video_path).videofile()
