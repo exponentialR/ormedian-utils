@@ -4,7 +4,12 @@ from PIL import Image
 import os
 from pathlib import Path
 import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 import cv2
+from colorama import Fore
+
+from .logger_config import animated_exit
+from .save_frames import logger
 
 
 def image_resizer(new_size: tuple,
@@ -95,23 +100,56 @@ def image_resizer(new_size: tuple,
             if not os.path.exists(Resized_folder_):
                 os.mkdir(Resized_folder_)
             else:
-                print(
-                    f'\033[1;34;40mWARNING!!! IMAGE FOLDER ALREADY EXISTS, OVERRIDING EXISTING FILES IN {Resized_folder_} PRESS Esc to Exit')
+                animated_exit(
+                    f'IMAGE FOLDER ALREADY EXISTS,\n OVERRIDING EXISTING FILES IN {Resized_folder_}\n PRESS Esc to Exit')
+                if cv2.waitKey(45) & 0xFF == 27: exit()
+                time.sleep(2.0)
                 pass
             tot_img_ = resizer(new_size, img_fold, quality, img_ext, Resized_folder_, view, out_format)
             list_indx += 1
             tot_img += tot_img_
             if list_indx >= len(image_subfolders):
+                cv2.destroyAllWindows()
+                cv2.waitKey(1)
                 break
         Resized_folder = Res_folders
+    logger.info('IMAGE RESIZING DONE!!!')
+    animated_exit('COMPUTING STATS')
 
-    print(f'\033[1;33;40m========================================================================\n')
-    print(f'\033[1;36;40m Resizing Image done!')
-    print(f' {tot_img} images have been resized to size: \033[2;32;40m {new_size} ')
-    print(f' with Image extension \033[3;31;40m{out_format}\n')
-    print(f'\033[1;36;40m RESIZED IMAGES can be found in \033[1;34;40m {Resized_folder}')
+    msg_print = f'\n==========================================================================\n' \
+                f'-------------------------IMAGE  RESIZING  STATISTICS---------------------- \n' \
+                f'--------------------------------------------------------------------------\n'
+    folder_path_print = f'\nResized Images Folder:'
+    new_image_size = f'\nNew Image Size:'
 
-    print(f'\033[1;33;40m=========================================================================\n')
+    msg_image_path = f'\n Resized Images Format:'
+    image_folder_print = f'{out_format}                           \n'
+    space_u = f'==========================================================================\n'
+
+    total_msg = f'Total Resized Images  : '
+    total_number = f'               {tot_img} '
+    space_b = f'\n========================================================================='
+    print(Fore.LIGHTBLUE_EX, msg_print, end='')
+    print(Fore.LIGHTBLUE_EX, folder_path_print, end='')
+    print(Fore.RED, f'{Resized_folder}', end='')
+    print(Fore.LIGHTBLUE_EX, new_image_size, end='')
+    print(Fore.RED, new_size, end='')
+    print(Fore.LIGHTBLUE_EX, msg_image_path, end='')
+    print(Fore.MAGENTA, image_folder_print, end='')
+    print(Fore.LIGHTBLUE_EX, space_u, end='')
+    print(Fore.LIGHTBLUE_EX, total_msg, end='')
+    print(Fore.RED, total_number, end='')
+    print(Fore.LIGHTBLUE_EX, space_b)
+    cv2.destroyAllWindows()
+    cv2.waitKey(1)
+
+    # print(f'\033[1;33;40m========================================================================\n')
+    # print(f'\033[1;36;40m Resizing Image done!')
+    # print(f' {tot_img} images have been resized to size: \033[2;32;40m {new_size} ')
+    # print(f' with Image extension \033[3;31;40m{out_format}\n')
+    # print(f'\033[1;36;40m RESIZED IMAGES can be found in \033[1;34;40m {Resized_folder}')
+    #
+    # print(f'\033[1;33;40m=========================================================================\n')
 
 
 def resizer(new_size,
@@ -123,6 +161,7 @@ def resizer(new_size,
 
     i = 0
     for img in img_dirs:
+
         img_e = Path(img).suffix
         exact_image_path = os.path.join(image_path, img)
 
@@ -134,7 +173,6 @@ def resizer(new_size,
                 print(f'\033[1;31;40m {exact_image_path} Skipped! not a supported image file')
                 pass
             imgs = Image.open(exact_image_path)
-
 
             Resized_img = imgs.resize(new_size, Image.ANTIALIAS)
             print(f'\033[1;33;40m New size of {img}: {Resized_img.size[0]} x {Resized_img.size[1]}')
@@ -151,20 +189,45 @@ def resizer(new_size,
             if view == False:
                 pass
             else:
-                image = mpimg.imread(os.path.join(n_folder, img))
-                cv2.namedWindow(f'{img}')
-                cv2.imshow(f'{img}', cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-                cv2.waitKey(2)
-            i += 1
-        if i == total_img_len:
-            return i
-            break
+                # image = mpimg.imread(os.path.join(n_folder, img))
+                image = cv2.imread(os.path.join(n_folder, img))
 
-        cv2.destroyAllWindows()
+                # image = Image.open(os.path.join(n_folder, img))
+                # plt.figure(1)
+                # plt.imshow(image)
+                # plt.title(f'Resized Image: {img}')
+                # plt.pause(0.00000001)
+                # if 0xFF == 27:
+                #     plt.close('all')
+                #     break
+                cv2.namedWindow(f'{img}')
+                # plt.imshow(image)
+                # plt.show()
+                cv2.imshow(f'{img}', image)  # cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+                i += 1
+                cv2.waitKey(2)
+
+                if cv2.waitKey(1) & 0xFF == 27:
+                    return i
+                cv2.destroyAllWindows()
+                cv2.waitKey(1)
+
+            if i == total_img_len:
+
+                cv2.destroyAllWindows()
+                cv2.waitKey(1)
+                return i
+            else:
+                pass
+            cv2.destroyAllWindows()
+            cv2.waitKey(1)
+    #         break
+    cv2.destroyAllWindows()
+
 
 #
 # images_folder = '/Users/solua1/Documents/Datasets'
 # images_folder = '/Users/solua1/Documents/Datasets/3'
-# image_resizer((100, 100),
+# image_resizer((200, 200),
 #               images_folder,
-#               100, multiple_folders=False, n_f=True, view=True, new_folder='New_Image')
+#               100, multiple_folders=False, n_f=True, view=True, new_folder='Thursday')
