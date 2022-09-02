@@ -53,17 +53,15 @@ def frame_capture(file, image_format, new_folder, videos, view):
                 pass
             cv2.imwrite(f'{frames_folder}/image_{i}.{image_format}', frame)
             i += 1
-            if not i % 5 == 0:
+            if not i % 20 == 0:
                 pass
             else:
                 logger.info(f'Frames collected into {frames_folder} : {i}')
-            if cv2.waitKey(1) & 0xFF == ord('q'):
+            if cv2.waitKey(1) & 0xFF == 27:
                 logger.critical('EXITING FRAME COLLECTION.....');
                 time.sleep(0.5)
                 logger.critical(f'SUBTOTAL IMAGES SAVED: {i}')
                 return i
-                break
-
 
         else:
             cap.release()
@@ -71,6 +69,7 @@ def frame_capture(file, image_format, new_folder, videos, view):
             logger.critical(f'SUBTOTAL IMAGES SAVED for {file}: {i}')
             return i
         cv2.waitKey(1)
+    cap.release
     cv2.destroyAllWindows()
     cv2.waitKey(1)
 
@@ -300,7 +299,7 @@ class collect_frames:
                     logger.info(f'Frames collected into {image_folder} : {i}')
 
                 i += 1
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                if cv2.waitKey(1) & 0xFF == 27:
                     camera.release()
 
                     cv2.destroyAllWindows()
@@ -342,7 +341,7 @@ class collect_frames:
         cv2.destroyAllWindows()
         cv2.waitKey(1)
 
-    def video_folder(self, Image_folder='Image Folder'):
+    def videofolder(self, Image_folder='Image Folder'):
         """
 
         :param cap_input: path to feed cv2.VideoCapture
@@ -400,7 +399,11 @@ class collect_frames:
                 logger.critical('FRAME COLLECTION STOPPED ABRUPTLY');
                 time.sleep(0.5)
                 logger.critical(f'TOTAL IMAGES SAVED: {total}')
+                cv2.destroyAllWindows()
+                cv2.waitKey(1)
                 break
+        cv2.destroyAllWindows()
+        cv2.waitKey(1)
         to_log = json.dumps(to_log, indent=20, sort_keys=True, default=dict)
         total = json.dumps(total, indent=20, sort_keys=True, default=int)
         to_log = re.sub(r"^{\s*", "{", to_log)
@@ -436,7 +439,7 @@ class collect_frames:
 
 # video_path = '/Users/solua1/Documents/TestVideos/video.mp4'
 # video_path = '/Users/solua1/Documents/TestVideos'
-# collect_frames(video_path).video_folder()
+# collect_frames(video_path).videofolder()
 # collect_frames(video_path).videofile()
 # collect_frames(0).camera('/Users/solua1/Documents/', save_video=True)
 

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = 'ormedian_utils'
-version = '0.0.1'
+version = '0.1'
 authors = [
     {name='Samuel Adebayo', email='samueladebayo@ieee.org'},
 ]
@@ -18,7 +18,7 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 dependencies = [
-    "opencv-python==4.5.4.58", "matplotlib", "colorama", "Pillow", "tqdm"
+    "opencv-python==4.5.4.58", "colorama", "Pillow", "tqdm"
 ]
 
 [project.urls]
