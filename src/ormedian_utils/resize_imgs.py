@@ -224,14 +224,10 @@ def image_resizer(new_size: tuple,
         space_b = f'\n=========================================================================='
         print(Fore.LIGHTBLUE_EX, msg_print, end='')
         print(Fore.LIGHTBLUE_EX, folder_path_print, end='')
-        # for new_fol in Resized_folder:
         for fold in Resized_folder:
             print(Fore.RED, f'      {fold}')
-        # print(Fore.RED, f'{Resized_folder}', end='')
         print(Fore.LIGHTBLUE_EX, new_image_size, end='')
         print(Fore.RED, new_size, end='')
-        # print(Fore.LIGHTBLUE_EX, msg_image_path, end='')
-        # print(Fore.MAGENTA, image_folder_print, end='')
         print(Fore.LIGHTBLUE_EX, space_u, end='')
         print(Fore.LIGHTBLUE_EX, total_msg, end='')
         print(Fore.RED, total_number, end='')
@@ -259,10 +255,8 @@ def resizer(new_size,
             if not os.path.isfile(exact_image_path):
                 print(f'\033[1;31;40m {exact_image_path} Skipped! not a supported image file')
                 pass
-            # imgs = Image.open(exact_image_path)
             imgs = cv2.imread(exact_image_path, cv2.IMREAD_UNCHANGED)
-            # Resized_img = imgs.resize(new_size, Image.ANTIALIAS)
-            # print(f'Exact Image Path {exact_image_path}')
+
             Resized_img = cv2.resize(imgs, new_size)
             if i % 20 == 0:
                 logger.info(f'{i} Images resized; New Size: {Resized_img.shape[0]} x {Resized_img.shape[1]}')
@@ -290,9 +284,3 @@ def resizer(new_size,
     cv2.waitKey(1)
     return i
 
-
-# images_folder = '/Users/solua1/Documents/Friday'
-# # images_folder = '/Users/solua1/Documents/Datasets/files'
-# # images_folder = '/Users/solua1/Documents/Datasets/3'
-# image_resizer((200, 200), images_folder, n_f=True, new_folder='TesteFr', view=True, multiple_folders=True)
-# print(images_folder[0:-4])

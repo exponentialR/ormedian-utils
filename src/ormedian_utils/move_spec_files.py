@@ -13,7 +13,6 @@ from .save_frames import logger
 
 def filemover(folder_path: str, file_ext: str, new_folder: str):
     """
-
     :param new_folder: Name of new folder to move files to
     :param file_ext: extension of file to move e.g csv, json
     :param folder_path: Path to the parent folder containing files to move
