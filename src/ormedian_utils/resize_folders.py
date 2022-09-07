@@ -144,4 +144,3 @@ def resize_all(new_size:tuple, folder_path:str):
     cv2.waitKey(1)
 
 
-resize_all((100, 100), '/Users/solua1/Documents/tests1/ResizedImages')
