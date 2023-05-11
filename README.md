@@ -1,3 +1,5 @@
+`requires >= Python 3.6`
+
 https://user-images.githubusercontent.com/73752977/188218332-96f6766d-3f7f-4eb0-89f2-c2b58a08c375.mp4
 
 

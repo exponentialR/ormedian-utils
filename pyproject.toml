@@ -4,21 +4,21 @@ build-backend = "hatchling.build"
 
 [project]
 name = 'ormedian_utils'
-version = '0.2'
+version = '0.2.1'
 authors = [
     {name='Samuel Adebayo', email='samueladebayo@ieee.org'},
 ]
 description = 'Utilities for Computer Vision Tasks'
 readme = 'README.md'
 license = {file='LICENSE'}
-requires-python = '<=3.10.0'
+requires-python = '>=3.6'
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent"
 ]
 dependencies = [
-    "opencv-python==4.5.4.58", "colorama", "Pillow", "tqdm"
+    "opencv-python>=4.5.5.62", "colorama", "Pillow", "tqdm"
 ]
 
 [project.urls]
