@@ -35,27 +35,26 @@ logger.addHandler(stdout_handler)
 logger.addHandler(file_handler)
 
 
-def frame_capture(file, image_format, new_folder, videos, view):
+def frame_capture(file, image_format, new_folder, videos, view, interval=None):
     frames_folder = os.path.join(new_folder, videos[0:-len(Path(videos).suffix)])
-    if os.path.exists(frames_folder):
-        pass
-    else:
+    if not os.path.exists(frames_folder):
         os.mkdir(frames_folder)
 
     cap = cv2.VideoCapture(file)
+    if interval is not None:
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        frame_interval = int(fps * interval)
     i = 0
     while True:
         ret, frame = cap.read()
         if ret:
             if view:
                 cv2.imshow('Output Video', frame)
-            else:
-                pass
-            cv2.imwrite(f'{frames_folder}/image_{i}.{image_format}', frame)
+            if interval is None or i % frame_interval == 0:
+                cv2.imwrite(f'{frames_folder}/image_{i}.{image_format}', frame)
+
             i += 1
-            if not i % 20 == 0:
-                pass
-            else:
+            if i % 20 == 0:
                 logger.info(f'Frames collected into {frames_folder} : {i}')
             if cv2.waitKey(1) & 0xFF == 27:
                 logger.critical('EXITING FRAME COLLECTION.....');
@@ -74,7 +73,7 @@ def frame_capture(file, image_format, new_folder, videos, view):
     cv2.waitKey(1)
 
 
-def save_video_frames(cap_input, folder, image_name, video_format, view):
+def save_video_frames(cap_input, folder, image_name, video_format, view, interval=None):
     video_name = os.path.join(folder, image_name)
     if not os.path.exists(video_name):
         pass
@@ -86,17 +85,19 @@ def save_video_frames(cap_input, folder, image_name, video_format, view):
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     width, height = camera.get(cv2.CAP_PROP_FRAME_WIDTH), camera.get(cv2.CAP_PROP_FRAME_HEIGHT)
     video_ = cv2.VideoWriter(f'{video_name}.{video_format}', fourcc, 20.0, (int(width), int(height)))
-
+    if interval is not None:
+        fps = camera.get(cv2.CAP_PROP_FPS)
+        frame_interval = int(fps * interval)
     i = 0
     while camera.isOpened():
         ret, frame = camera.read()
         if ret == True:
             frame = cv2.flip(frame, 1)
             video_.write(frame)
-            cv2.imwrite(f'{video_name}_{i}.jpg', frame)
+            if interval is None or i% frame_interval == 0:
+                cv2.imwrite(f'{video_name}_{i}.jpg', frame)
 
             if view:
-
                 cv2.imshow(f'{video_name}', frame)
             else:
                 pass
@@ -141,15 +142,19 @@ def save_video_frames(cap_input, folder, image_name, video_format, view):
     cv2.waitKey(1)
 
 
-def save_frames_only(cap_input, folder, image_name, image_format, view):
+def save_frames_only(cap_input, folder, image_name, image_format, view, interval=None):
     video_name = os.path.join(folder, image_name)
     camera = cv2.VideoCapture(cap_input)
     i = 0
+    if interval is not None:
+        fps = camera.get(cv2.CAP_PROP_FPS)
+        frame_interval = int(fps * interval)
     while camera.isOpened():
         ret, frame = camera.read()
         if ret == True:
             frame = cv2.flip(frame, 1)
-            cv2.imwrite(f'{video_name}_{i}.{image_format}', frame)
+            if interval is None or i % frame_interval == 0:
+                cv2.imwrite(f'{video_name}_{i}.{image_format}', frame)
             if view:
 
                 cv2.imshow(f'Output {image_name} Video', frame)
@@ -193,7 +198,7 @@ def save_frames_only(cap_input, folder, image_name, image_format, view):
 
 
 class collect_frames:
-    def __init__(self, num, video_format='mp4', image_name='frame', image_format='jpg', view=True):
+    def __init__(self, num, video_format='mp4', image_name='frame', image_format='jpg', view=True, interval=None):
         super(collect_frames, self).__init__()
         self.img_ext = ['.jpg', '.jpeg', '.png', '.gif', '.tiff', '.psd', '.pdf', '.eps', '.raw', '.svg', '.bmp',
                         '.dib']
@@ -209,6 +214,7 @@ class collect_frames:
             video_format = f'.{video_format}'
         self.video_format = video_format
         self.view = view
+        self.interval = interval
 
     def camera(self, folder_path, save_video=True):
         """
@@ -247,10 +253,10 @@ class collect_frames:
         logger.debug('YOU MAY PRESS ESC TO STOP COLLECTION ONCE YOU ARE DONE')
 
         if save_video:
-            save_video_frames(self.cap_input, folder_path, self.image_name, self.video_format, self.view)
+            save_video_frames(self.cap_input, folder_path, self.image_name, self.video_format, self.view, interval=self.interval)
 
         else:
-            save_frames_only(self.cap_input, folder_path, self.image_name, self.image_format, self.view)
+            save_frames_only(self.cap_input, folder_path, self.image_name, self.image_format, self.view, interval=self.interval)
 
     def videofile(self):
         """
@@ -282,13 +288,19 @@ class collect_frames:
             pass
         else:
             os.mkdir(image_folder)
+
         print(video_input)
         camera = cv2.VideoCapture(v_path)
+        if self.inteval is not None:
+            fps = camera.get(cv2.CAP_PROP_FPS)
+            frame_interval = int(fps * interval)
+
         i = 0
         while camera.isOpened():
             ret, frame = camera.read()
             if ret == True:
-                cv2.imwrite(f'{image_folder}/{self.image_name}_{i}.{self.image_format}', frame)
+                if self.interval is None or i % frame_interval == 0:
+                    cv2.imwrite(f'{image_folder}/{self.image_name}_{i}.{self.image_format}', frame)
                 if self.view:
                     cv2.imshow(f'Output {video_input} Video', frame)
                 else:
@@ -341,7 +353,7 @@ class collect_frames:
         cv2.destroyAllWindows()
         cv2.waitKey(1)
 
-    def videofolder(self, Image_folder='Image Folder'):
+    def videofolder(self, Image_folder='Extracted-Frames-Folder'):
         """
 
         :param cap_input: path to feed cv2.VideoCapture
@@ -374,7 +386,7 @@ class collect_frames:
         videos = []
 
         def returnTrue(file_in):
-            if Path(file_in).suffix in vid_ext:
+            if Path(file_in).suffix.lower() in vid_ext:
                 return True
 
             return False
@@ -384,14 +396,15 @@ class collect_frames:
              f'Please provide a directory with video files'
              ))
 
-        [videos.append(ext) for ext in vids_path if Path(ext).suffix in vid_ext]
+        [videos.append(ext) for ext in vids_path if Path(ext).suffix.lower() in vid_ext]
         videos = tqdm(videos)
         total = 0
         to_log = {}
         for vid in videos:
             videos.set_description(f'{total} Images have been saved')
             time.sleep(0.05)
-            tot_image = frame_capture(os.path.join(self.cap_input, vid), self.image_format, new_folder, vid, self.view)
+            tot_image = frame_capture(os.path.join(self.cap_input, vid), self.image_format, new_folder, vid, self.view,
+                                      interval=self.interval)
             to_log[f'{vid}'] = f'{tot_image} Images'
             total += tot_image
 
@@ -436,12 +449,11 @@ class collect_frames:
         print(Fore.RED, total_number, end='')
         print(Fore.LIGHTBLUE_EX, space_b)
 
-
-# video_path = '/Users/solua1/Documents/TestVideos/video.mp4'
-# video_path = '/Users/solua1/Documents/TestVideos'
+# video_path = '/TestVideos/video.mp4'
+# video_path = '/Documents/TestVideos'
 # collect_frames(video_path).videofolder()
 # collect_frames(video_path).videofile()
-# collect_frames(0).camera('/Users/solua1/Documents/', save_video=True)
+# collect_frames(0).camera('/Documents/', save_video=True)
 
 # print('back to normal now')
 # print('\033[31m' + 'some red text')
