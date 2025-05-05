@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use Ormedian-Utils in your computer vision research or applications, please cite it as below:"
+title: "Ormedian-Utils: A Computer Vision Utilities Package"
+authors:
+  - family-names: Adebayo
+    given-names: Samuel
+    orcid: https://orcid.org/0000-0002-8592-1196
+date-released: 2022-09-03
+version: "1.0.0"
+doi: 10.5281/zenodo.15346680
+repository-code: https://github.com/exponentialR/ormedian-utils
+license: MIT
